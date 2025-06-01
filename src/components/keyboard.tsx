@@ -6,6 +6,7 @@ import { KEYBOARD_HEIGHT, KEYBOARD_WIDTH } from '@/constants';
 type KeyboardLayoutProps = {
   color?: string
   frameColor: string
+  fontColor: string
   image?: string;
   type: 'color' | 'image';
 }
@@ -13,6 +14,7 @@ type KeyboardLayoutProps = {
 export const KeyboardLayout = ({
   color,
   frameColor,
+  fontColor,
   image,
   type,
 }: KeyboardLayoutProps) => {
@@ -38,6 +40,7 @@ export const KeyboardLayout = ({
                   <RenderKey
                     type={type}
                     keyProps={key}
+                    fontColor={fontColor}
                     color={color}
                     image={image}
                     key={idx}
@@ -67,6 +70,7 @@ export const KeyboardLayout = ({
                   <RenderKey
                     type={type}
                     keyProps={key}
+                    fontColor={fontColor}
                     color={color}
                     image={image}
                     key={idx}
@@ -88,6 +92,7 @@ const RenderKey = ({
   keyProps,
   image,
   color,
+  fontColor,
   type,
   xPos,
   yPos,
@@ -95,6 +100,7 @@ const RenderKey = ({
   keyProps: KeyboardProps;
   type: 'color' | 'image';
   color: string | undefined;
+  fontColor: string;
   image: string | undefined
   xPos: number;
   yPos: number;
@@ -103,6 +109,7 @@ const RenderKey = ({
     <Keycap
       type={type}
       backgroundColor={color}
+      fontColor={fontColor}
       shiftKey={keyProps.shiftKey}
       keyChar={keyProps.key}
       keyWidth={keyProps.width}

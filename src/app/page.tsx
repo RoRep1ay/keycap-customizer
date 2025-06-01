@@ -12,6 +12,8 @@ export default function Home() {
     setImage,
     frameColor,
     setFrameColor,
+    fontColor,
+    setFontColor,
   } = useKeyboardStyleApplier(setType)
   return (
     <div className="w-11/12 mx-auto flex justify-between mt-5">
@@ -20,12 +22,15 @@ export default function Home() {
         colorChange={setColor}
         frameColor={frameColor}
         frameColorChange={setFrameColor}
+        fontColor={fontColor}
+        fontColorChange={setFontColor}
         imageChange={setImage}
       />
       <KeyboardLayout
         frameColor={frameColor}
         image={image}
         color={color}
+        fontColor={fontColor}
         type={type}
       />
     </div>

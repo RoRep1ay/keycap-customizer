@@ -5,6 +5,8 @@ type CustomizerProps = {
   colorChange: Dispatch<SetStateAction<string>>;
   frameColor: string;
   frameColorChange: Dispatch<SetStateAction<string>>;
+  fontColor: string;
+  fontColorChange: Dispatch<SetStateAction<string>>;
   image?: string;
   imageChange: Dispatch<SetStateAction<string | undefined>>;
 };
@@ -15,6 +17,8 @@ export const Customizer = (
     colorChange,
     frameColor,
     frameColorChange,
+    fontColor,
+    fontColorChange,
     imageChange,
   }: CustomizerProps
 ) => {
@@ -37,6 +41,19 @@ export const Customizer = (
         id="frameColor"
         value={frameColor}
         onChange={(el) => frameColorChange(el.target.value)}
+        className="h-8 w-12 border border-gray-300 rounded cursor-pointer"
+      />
+    </div>
+    {/* Font Color */}
+    <div className="flex items-center gap-3">
+      <label htmlFor="fontColor" className="font-medium text-gray-700">
+        Font Color:
+      </label>
+      <input
+        type="color"
+        id="fontColor"
+        value={fontColor}
+        onChange={(el) => fontColorChange(el.target.value)}
         className="h-8 w-12 border border-gray-300 rounded cursor-pointer"
       />
     </div>
