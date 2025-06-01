@@ -4,20 +4,36 @@ export type KeyboardProps = {
   width?: number;
 }
 
-const FUNCTION_KEYS_ROW: KeyboardProps[] = [
-  { key: 'Esc' },
-  { key: 'F1' },
-  { key: 'F2' },
-  { key: 'F3' },
-  { key: 'F4' },
-  { key: 'F5' },
-  { key: 'F6' },
-  { key: 'F7' },
-  { key: 'F8' },
-  { key: 'F9' },
-  { key: 'F10' },
-  { key: 'F11' },
-  { key: 'F12' },
+// 650 - (4 * 9 (inner gap) = 36px) = 614px
+export const FUNCTION_KEYS_ROW: KeyboardProps[][] = [
+  // 14 * 40 = 560px
+  [
+    { key: 'Esc' },
+  ],
+  [
+    { key: 'F1' },
+    { key: 'F2' },
+    { key: 'F3' },
+    { key: 'F4' },
+  ],
+  [
+    { key: 'F5' },
+    { key: 'F6' },
+    { key: 'F7' },
+    { key: 'F8' },
+  ],
+  [
+    { key: 'F9' },
+    { key: 'F10' },
+    { key: 'F11' },
+    { key: 'F12' },
+  ],
+
+  [
+    {
+      key: 'F13',
+    },
+  ],
 ];
 
 // 620 - gap ( 4 * 13=52px ) = 598px
@@ -119,7 +135,6 @@ const MODIFIER_KEYS_ROW: KeyboardProps[] = [
 ];
 
 export const KEYBOARD_LAYOUT: KeyboardProps[][] = [
-  FUNCTION_KEYS_ROW,
   NUMBER_ROW,
   QWE_ROW,
   ASD_ROW,
