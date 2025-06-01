@@ -23,14 +23,14 @@ export const KeyboardLayout = ({
         return (
           <div
             key={rowIndex}
-            className={`w-full justify-between flex ${rowIndex === 0 ? ' mb-1' : ''}`}
+            className={`w-full justify-between flex gap-1 ${rowIndex === 0 ? ' mb-1' : ''}`}
           >
             {row.map((key, idx) => {
               const keyWidth = key.width || 40; // each key's pixel width
               const xPos = xOffset;
               const yPos = rowIndex * 40; // assuming each row is 40px tall
 
-              xOffset += (keyWidth);
+              xOffset += (keyWidth + 4);
 
               return (
                 <Keycap
