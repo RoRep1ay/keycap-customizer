@@ -16,60 +16,69 @@ export const KeyboardLayout = ({
 }: KeyboardLayoutProps) => {
   let xOffset = 0;
   return (
-    <div className="flex flex-col gap-1 w-[650px]">
-      <div
-        className="w-full justify-between flex gap-3.5"
-      >
-        {
-          FUNCTION_KEYS_ROW.map((it, id) => {
-            return <div className='w-full flex justify-between gap-1' key={id}>{it.map((key, idx) => {
-              const keyWidth = key.width || 40;
-              const xPos = xOffset;
-              const yPos = 0; // + 1 since excluding fn row
+    
+    <div className="flex flex-col items-center justify-center">
+      {/* Keyboard Frame Container */}
+      <div className="flex flex-col gap-1 w-[666px] p-2 bg-gray-800 border-gray-700 rounded-2xl shadow-xl">
 
-              xOffset += (keyWidth + 4);
-              return <RenderKey 
-                type={type}
-                keyProps={key}
-                color={color}
-                image={image}
-                key={idx}
-                xPos={xPos}
-                yPos={yPos}
-              />;
-            })}</div>
-          })
-        }
+        {/* Function Key Row */}
+        <div className="w-full justify-between flex gap-3.5">
+          {FUNCTION_KEYS_ROW.map((it, id) => (
+            <div className="w-full flex justify-between gap-1" key={id}>
+              {it.map((key, idx) => {
+                const keyWidth = key.width || 40;
+                const xPos = xOffset;
+                const yPos = 0;
+
+                xOffset += keyWidth + 4;
+
+                return (
+                  <RenderKey
+                    type={type}
+                    keyProps={key}
+                    color={color}
+                    image={image}
+                    key={idx}
+                    xPos={xPos}
+                    yPos={yPos}
+                  />
+                );
+              })}
+            </div>
+          ))}
+        </div>
+
+        {/* Main Keyboard Rows */}
+        {KEYBOARD_LAYOUT.map((row, rowIndex) => {
+          xOffset = 0;
+
+          return (
+            <div key={rowIndex} className="w-full justify-between flex gap-1">
+              {row.map((key, idx) => {
+                const keyWidth = key.width || 40;
+                const xPos = xOffset;
+                const yPos = (rowIndex + 1) * 40;
+
+                xOffset += keyWidth + 4;
+
+                return (
+                  <RenderKey
+                    type={type}
+                    keyProps={key}
+                    color={color}
+                    image={image}
+                    key={idx}
+                    xPos={xPos}
+                    yPos={yPos}
+                  />
+                );
+              })}
+            </div>
+          );
+        })}
       </div>
-      {KEYBOARD_LAYOUT.map((row, rowIndex) => {
-        xOffset = 0; // tracks horizontal offset
-
-        return (
-          <div
-            key={rowIndex}
-            className="w-full justify-between flex gap-1"
-          >
-            {row.map((key, idx) => {
-              const keyWidth = key.width || 40; // each key's pixel width
-              const xPos = xOffset;
-              const yPos = (rowIndex + 1) * 40; // + 1 since excluding fn row
-
-              xOffset += (keyWidth + 4);
-
-              return <RenderKey 
-                type={type}
-                keyProps={key}
-                color={color}
-                image={image}
-                key={idx}
-                xPos={xPos}
-                yPos={yPos}
-              />;
-            })}
-          </div>
-        );
-      })}
     </div>
+
   );
 }
 

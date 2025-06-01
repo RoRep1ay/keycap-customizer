@@ -5,7 +5,6 @@ type CustomizerProps = {
   colorChange: Dispatch<SetStateAction<string>>;
   image?: string;
   imageChange: Dispatch<SetStateAction<string | undefined>>;
-  setType: Dispatch<SetStateAction<'color' | 'image'>>;
 };
 
 export const Customizer = (
@@ -13,36 +12,49 @@ export const Customizer = (
     color,
     colorChange,
     imageChange,
-    setType,
   }: CustomizerProps
 ) => {
+  // TODO: When image is selected, then color selected, then same image selected image is not update
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setType('image');
     const file = e.target.files?.[0];
     if (file) {
       const imageUrl = URL.createObjectURL(file);
       imageChange(imageUrl);
     }
   };
-  return <div className="flex flex-col gap-3 w-[300px]">
-    <div className="flex gap-3">
-      <label htmlFor="color" id="color">Color: </label>
-
-      <input type="color" id="color" value={color} onChange={el => {
-        setType('color');
-        colorChange(el.target.value);
-      }} />
+  return <div className="flex flex-col gap-4 w-[300px] p-4 rounded-xl shadow-md bg-white">
+    {/* Color Picker */}
+    <div className="flex items-center gap-3">
+      <label htmlFor="color" className="font-medium text-gray-700">
+        Color:
+      </label>
+      <input
+        type="color"
+        id="color"
+        value={color}
+        onChange={(el) => {
+          // setType('color');
+          colorChange(el.target.value);
+        }}
+        className="h-8 w-12 border border-gray-300 rounded cursor-pointer"
+      />
     </div>
 
-    <div className="flex gap-3">
-      <label htmlFor="image" id="image-label" className="font-medium text-gray-700">
+    {/* Image Picker */}
+    <div className="flex items-center gap-3">
+      <label htmlFor="image" className="font-medium text-gray-700">
         Image:
       </label>
-
       <input
         type="file"
         id="image"
         onChange={handleImageChange}
+        className="block w-full text-sm text-gray-600
+          file:mr-4 file:py-2 file:px-4
+          file:rounded-full file:border-0
+          file:text-sm file:font-semibold
+          file:bg-blue-50 file:text-blue-700
+          hover:file:bg-blue-100"
       />
     </div>
   </div>
