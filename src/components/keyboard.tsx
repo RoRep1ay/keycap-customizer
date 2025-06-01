@@ -5,12 +5,14 @@ import { KEYBOARD_HEIGHT, KEYBOARD_WIDTH } from '@/constants';
 
 type KeyboardLayoutProps = {
   color?: string
+  frameColor: string
   image?: string;
   type: 'color' | 'image';
 }
 
 export const KeyboardLayout = ({
   color,
+  frameColor,
   image,
   type,
 }: KeyboardLayoutProps) => {
@@ -19,7 +21,7 @@ export const KeyboardLayout = ({
     
     <div className="flex flex-col items-center justify-center">
       {/* Keyboard Frame Container */}
-      <div className="flex flex-col gap-1 w-[666px] p-2 bg-gray-800 border-gray-700 rounded-2xl shadow-xl">
+      <div className="flex flex-col gap-1 w-[666px] p-2 bg-gray-800 border-gray-700 rounded-2xl shadow-xl" style={{backgroundColor: frameColor}}>
 
         {/* Function Key Row */}
         <div className="w-full justify-between flex gap-3.5">

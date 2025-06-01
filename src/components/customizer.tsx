@@ -3,6 +3,8 @@ import { Dispatch, SetStateAction } from "react";
 type CustomizerProps = {
   color: string;
   colorChange: Dispatch<SetStateAction<string>>;
+  frameColor: string;
+  frameColorChange: Dispatch<SetStateAction<string>>;
   image?: string;
   imageChange: Dispatch<SetStateAction<string | undefined>>;
 };
@@ -11,6 +13,8 @@ export const Customizer = (
   {
     color,
     colorChange,
+    frameColor,
+    frameColorChange,
     imageChange,
   }: CustomizerProps
 ) => {
@@ -23,6 +27,19 @@ export const Customizer = (
     }
   };
   return <div className="flex flex-col gap-4 w-[300px] p-4 rounded-xl shadow-md bg-white">
+    {/* Frame Color */}
+    <div className="flex items-center gap-3">
+      <label htmlFor="frameColor" className="font-medium text-gray-700">
+        Frame Color:
+      </label>
+      <input
+        type="color"
+        id="frameColor"
+        value={frameColor}
+        onChange={(el) => frameColorChange(el.target.value)}
+        className="h-8 w-12 border border-gray-300 rounded cursor-pointer"
+      />
+    </div>
     {/* Color Picker */}
     <div className="flex items-center gap-3">
       <label htmlFor="color" className="font-medium text-gray-700">
@@ -32,10 +49,7 @@ export const Customizer = (
         type="color"
         id="color"
         value={color}
-        onChange={(el) => {
-          // setType('color');
-          colorChange(el.target.value);
-        }}
+        onChange={(el) => colorChange(el.target.value)}
         className="h-8 w-12 border border-gray-300 rounded cursor-pointer"
       />
     </div>
