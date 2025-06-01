@@ -12,7 +12,6 @@ type KeycapProps = {
   type: 'color' | 'image';
 }
 
-
 export const Keycap = ({
   keyChar,
   shiftKey,
