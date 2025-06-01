@@ -17,29 +17,10 @@ export const Keycap = ({
   keyChar,
   shiftKey,
   imageStyle,
-  // x,
-  // y,
   keyWidth,
-  className,
   backgroundColor, 
   type,
 }: KeycapProps) => {
-      // <div
-      //   key={idx}
-      //   style={{ backgroundColor: color }}
-      //   className={`text-xs flex flex-col items-center justify-center border border-gray-400 rounded bg-white font-mono text-black h-[40px] p-1 ${key.class ? key.class : 'w-[40px]'}`}
-      // >
-      //   {key.shiftKey && <div className="text-xs leading-none">{key.shiftKey}</div>}
-      //   <div>{key.key}</div>
-      // </div>
-      // style={imageURL ? {
-      //   backgroundImage: imageURL ? `url(${imageURL})` : undefined,
-      //   backgroundSize: `${layoutWidth}px ${layoutHeight}px`,
-      //   backgroundPosition: `-${x}px -${y}px`,
-      //   backgroundRepeat: 'no-repeat',
-      //   backgroundClip: 'border-box',
-      // } : {}}
-  // console.log('imageStyle =', imageStyle)
   return (
     <div
       style={type == 'color' ? {

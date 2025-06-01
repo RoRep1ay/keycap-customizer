@@ -1,4 +1,4 @@
-import { FUNCTION_KEYS_ROW, KEYBOARD_LAYOUT } from '@/interfaces';
+import { FUNCTION_KEYS_ROW, KEYBOARD_LAYOUT, KeyboardProps } from '@/interfaces';
 import { Keycap } from './keycap';
 import { KEYBOARD_HEIGHT, KEYBOARD_WIDTH } from '@/constants';
 
@@ -22,34 +22,21 @@ export const KeyboardLayout = ({
       >
         {
           FUNCTION_KEYS_ROW.map((it, id) => {
-            return <div className='flex gap-1' key={id}>{it.map((key, idx) => {
+            return <div className='w-full flex justify-between gap-1' key={id}>{it.map((key, idx) => {
               const keyWidth = key.width || 40;
               const xPos = xOffset;
               const yPos = 0; // + 1 since excluding fn row
 
               xOffset += (keyWidth + 4);
-              return (
-                <Keycap
-                  key={idx}
-                  type={type}
-                  backgroundColor={color}
-                  shiftKey={key.shiftKey}
-                  keyChar={key.key}
-                  keyWidth={key.width}
-                  imageUrl={image || ''}
-                  imageStyle={
-                    type === 'image' && image
-                      ? {
-                        backgroundImage: `url(${image})`,
-                        backgroundSize: `${KEYBOARD_WIDTH}px ${KEYBOARD_HEIGHT}px`,
-                        backgroundPosition: `-${xPos}px -${yPos}px`,
-                        backgroundRepeat: 'no-repeat',
-                        backgroundClip: 'border-box',
-                      }
-                      : undefined
-                  }
-                />
-              );
+              return <RenderKey 
+                type={type}
+                keyProps={key}
+                color={color}
+                image={image}
+                key={idx}
+                xPos={xPos}
+                yPos={yPos}
+              />;
             })}</div>
           })
         }
@@ -69,32 +56,57 @@ export const KeyboardLayout = ({
 
               xOffset += (keyWidth + 4);
 
-              return (
-                <Keycap
-                  key={idx}
-                  type={type}
-                  backgroundColor={color}
-                  shiftKey={key.shiftKey}
-                  keyChar={key.key}
-                  keyWidth={key.width}
-                  imageUrl={image || ''}
-                  imageStyle={
-                    type === 'image' && image
-                      ? {
-                        backgroundImage: `url(${image})`,
-                        backgroundSize: `${KEYBOARD_WIDTH}px ${KEYBOARD_HEIGHT}px`,
-                        backgroundPosition: `-${xPos}px -${yPos}px`,
-                        backgroundRepeat: 'no-repeat',
-                        backgroundClip: 'border-box',
-                      }
-                      : undefined
-                  }
-                />
-              );
+              return <RenderKey 
+                type={type}
+                keyProps={key}
+                color={color}
+                image={image}
+                key={idx}
+                xPos={xPos}
+                yPos={yPos}
+              />;
             })}
           </div>
         );
       })}
     </div>
   );
+}
+
+const RenderKey = ({
+  keyProps,
+  image,
+  color,
+  type,
+  xPos,
+  yPos,
+}: {
+  keyProps: KeyboardProps;
+  type: 'color' | 'image';
+  color: string | undefined;
+  image: string | undefined
+  xPos: number;
+  yPos: number;
+}) => {
+  return (
+    <Keycap
+      type={type}
+      backgroundColor={color}
+      shiftKey={keyProps.shiftKey}
+      keyChar={keyProps.key}
+      keyWidth={keyProps.width}
+      imageUrl={image || ''}
+      imageStyle={
+        type === 'image' && image
+          ? {
+            backgroundImage: `url(${image})`,
+            backgroundSize: `${KEYBOARD_WIDTH}px ${KEYBOARD_HEIGHT}px`,
+            backgroundPosition: `-${xPos}px -${yPos}px`,
+            backgroundRepeat: 'no-repeat',
+            backgroundClip: 'border-box',
+          }
+          : undefined
+      }
+    />
+  )
 }
