@@ -1,7 +1,7 @@
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 import { FUNCTION_KEYS_ROW, KEYBOARD_LAYOUT, KeyboardProps } from '@/interfaces';
 import { Keycap } from './keycap';
 import { KEYBOARD_HEIGHT, KEYBOARD_WIDTH } from '@/constants';
-
 
 type KeyboardLayoutProps = {
   color?: string
@@ -20,7 +20,7 @@ export const KeyboardLayout = ({
 }: KeyboardLayoutProps) => {
   let xOffset = 0;
   return (
-    
+
     <div className="flex flex-col items-center justify-center">
       {/* Keyboard Frame Container */}
       <div className="flex flex-col gap-1 w-[666px] p-2 bg-gray-800 border-gray-700 rounded-2xl shadow-xl" style={{backgroundColor: frameColor}}>
@@ -97,34 +97,42 @@ const RenderKey = ({
   xPos,
   yPos,
 }: {
-  keyProps: KeyboardProps;
-  type: 'color' | 'image';
-  color: string | undefined;
-  fontColor: string;
-  image: string | undefined
-  xPos: number;
-  yPos: number;
-}) => {
+    keyProps: KeyboardProps;
+    type: 'color' | 'image';
+    color: string | undefined;
+    fontColor: string;
+    image: string | undefined
+    xPos: number;
+    yPos: number;
+  }) => {
   return (
-    <Keycap
-      type={type}
-      backgroundColor={color}
-      fontColor={fontColor}
-      shiftKey={keyProps.shiftKey}
-      keyChar={keyProps.key}
-      keyWidth={keyProps.width}
-      imageUrl={image || ''}
-      imageStyle={
-        type === 'image' && image
-          ? {
-            backgroundImage: `url(${image})`,
-            backgroundSize: `${KEYBOARD_WIDTH}px ${KEYBOARD_HEIGHT}px`,
-            backgroundPosition: `-${xPos}px -${yPos}px`,
-            backgroundRepeat: 'no-repeat',
-            backgroundClip: 'border-box',
-          }
-          : undefined
-      }
-    />
+    <HoverCard>
+      <HoverCardTrigger>
+        <Keycap
+        type={type}
+        backgroundColor={color}
+        fontColor={fontColor}
+        shiftKey={keyProps.shiftKey}
+        keyChar={keyProps.key}
+        keyWidth={keyProps.width}
+        imageUrl={image || ''}
+        imageStyle={
+          type === 'image' && image
+            ? {
+              backgroundImage: `url(${image})`,
+              backgroundSize: `${KEYBOARD_WIDTH}px ${KEYBOARD_HEIGHT}px`,
+              backgroundPosition: `-${xPos}px -${yPos}px`,
+              backgroundRepeat: 'no-repeat',
+              backgroundClip: 'border-box',
+            }
+            : undefined
+        }
+      />
+      </HoverCardTrigger>
+      <HoverCardContent>
+        The React Framework – created and maintained by @vercel.
+        <input type="color" id={`${keyProps}-color`} />
+      </HoverCardContent>
+    </HoverCard>
   )
 }

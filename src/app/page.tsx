@@ -1,5 +1,6 @@
 'use client'
 import { Customizer, KeyboardLayout } from '@/components';
+import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useKeyboardStyleApplier } from '@/hooks';
 import { useState } from 'react'
 
@@ -16,6 +17,20 @@ export default function Home() {
     setFontColor,
   } = useKeyboardStyleApplier(setType)
   return (
+    <>
+    <div>
+<Card>
+  <CardHeader>
+    <CardTitle>Custmoize Section</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <p>Card Content</p>
+  </CardContent>
+  <CardFooter>
+    <p>Card Footer</p>
+  </CardFooter>
+</Card>
+    </div>
     <div className="w-11/12 mx-auto flex justify-between mt-5">
       <Customizer
         color={color}
@@ -34,5 +49,6 @@ export default function Home() {
         type={type}
       />
     </div>
+    </>
   );
 }
