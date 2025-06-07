@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { RefObject, useState } from "react"
 import { Copy, Check } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select"
 import { CustomizeType, CustomizeValue } from "@/interfaces"
 import { useColorPicker } from "@/hooks"
+import { KeyboardLayoutRef } from "./keyboard"
 
 const presetColors = [
   "#FF6B6B",
@@ -46,7 +47,12 @@ const CUSTOMIZE_TYPES: {id: CustomizeType, text: string}[] = [
 
 
 // TODO: Return all styles to be applied to keyboard, do not update all the time since it's causing rendering issue. only update when Apply button is clicked
-export const ColorPicker = () => {
+//
+
+
+export const ColorPicker = ({
+  keyboardLayoutRef,
+}: {keyboardLayoutRef: RefObject<KeyboardLayoutRef | null>}) => {
 
   const [customizer, setCustomizer] = useState<CustomizeValue>({
     font: '#000000',
@@ -60,6 +66,15 @@ export const ColorPicker = () => {
 
   const handleColorChange = (color: string) => {
     setSelectedColor(color)
+    if (keyboardLayoutRef.current) {
+      if (customizeType === 'frame') {
+        keyboardLayoutRef.current.setFrameColor(color)
+      } else if (customizeType === 'font') {
+        keyboardLayoutRef.current.setFontColor(color)
+      } else {
+        keyboardLayoutRef.current.setKeycapColor(color)
+      }
+    }
   }
 
   const copyToClipboard = async () => {
@@ -87,12 +102,19 @@ export const ColorPicker = () => {
   const rgb = hexToRgb(selectedColor)
 
   return (
-    <div className="max-w-md mx-auto p-6 space-y-6">
+    <div className="mx-10 p-6 space-y-6 w-[500px]">
       <Card>
         <CardHeader>
           <CardTitle>Color Picker</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
+          <input type="color" onChange={(e) => {
+            if (keyboardLayoutRef.current) {
+              keyboardLayoutRef.current.setFrameColor(e.target.value)
+              setSelectedColor(e.target.value);
+            }
+          }}
+          />
           {/* Type */}
           <div className="space-y-2">
             <Select onValueChange={(val: CustomizeType) => setCustomizeType(val)} defaultValue={customizeType}>

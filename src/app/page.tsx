@@ -1,8 +1,9 @@
 'use client'
-import { Customizer, KeyboardLayout, ColorPicker  } from '@/components';
+import { Customizer, KeyboardLayout, ColorPicker, KeyboardLayoutRef  } from '@/components';
+import { Button } from '@/components/ui/button';
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useKeyboardStyleApplier } from '@/hooks';
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 
 export default function Home() {
   const [type, setType] = useState<'color' | 'image'>('color');
@@ -16,6 +17,8 @@ export default function Home() {
     fontColor,
     setFontColor,
   } = useKeyboardStyleApplier(setType)
+
+  const keyboardLayoutRef = useRef<KeyboardLayoutRef | null>(null);
   return (
     <>
       <div>
@@ -32,20 +35,10 @@ export default function Home() {
         </Card>
       </div>
 
-      <div>
-       <ColorPicker />
-       </div>
       <div className="w-11/12 mx-auto flex justify-between mt-5">
-        <Customizer
-          color={color}
-          colorChange={setColor}
-          frameColor={frameColor}
-          frameColorChange={setFrameColor}
-          fontColor={fontColor}
-          fontColorChange={setFontColor}
-          imageChange={setImage}
-        />
+        <ColorPicker keyboardLayoutRef={keyboardLayoutRef} />
         <KeyboardLayout
+          ref={keyboardLayoutRef}
           frameColor={frameColor}
           image={image}
           color={color}

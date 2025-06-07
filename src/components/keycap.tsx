@@ -1,4 +1,5 @@
 import { ImageClipStyle } from "@/interfaces";
+import { forwardRef, useImperativeHandle, useRef } from "react";
 
 type KeycapProps = {
   keyChar: string;
@@ -13,7 +14,12 @@ type KeycapProps = {
   type: 'color' | 'image';
 }
 
-export const Keycap = ({
+export type KeycapRef = {
+  setKeycapColor: (color: string) => void
+  setKeyFontColor: (color: string) => void
+}
+
+export const Keycap = forwardRef<KeycapRef, KeycapProps>(({
   keyChar,
   shiftKey,
   imageStyle,
@@ -21,9 +27,27 @@ export const Keycap = ({
   backgroundColor, 
   fontColor,
   type,
-}: KeycapProps) => {
+}, ref) => {
+    const divRef = useRef<HTMLDivElement>(null);
+    useImperativeHandle(ref, () => {
+      return {
+        setKeycapColor: (color) => {
+          if (divRef.current) {
+            console.log('helllo color???')
+            divRef.current.style.backgroundColor = color;
+          }
+        },
+        setKeyFontColor: (color) => {
+          if (divRef.current) {
+            console.log('helllo font???')
+            divRef.current.style.color = color;
+          }
+        },
+      }
+    })
   return (
     <div
+        ref={divRef}
       style={type == 'color' ? {
         width: keyWidth || 40,
         color: fontColor,
@@ -35,4 +59,4 @@ export const Keycap = ({
       <div>{keyChar}</div>
     </div>
   );
-}
+})
