@@ -1,5 +1,4 @@
-import { CSSProperties } from "react";
-
+import { CSSProperties } from 'react'
 
 export type ImageClipStyle = Pick<
   CSSProperties,
@@ -8,4 +7,4 @@ export type ImageClipStyle = Pick<
   | 'backgroundPosition'
   | 'backgroundRepeat'
   | 'backgroundClip'
->;
+>

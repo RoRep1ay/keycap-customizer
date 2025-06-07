@@ -1,40 +1,23 @@
 export type KeyboardProps = {
-  key: string;
-  shiftKey?: string;
-  width?: number;
+  key: string
+  shiftKey?: string
+  width?: number
 }
 
 // 650 - (4 * 9 (inner gap) = 36px) = 614px
 export const FUNCTION_KEYS_ROW: KeyboardProps[][] = [
   // 14 * 40 = 560px
-  [
-    { key: 'Esc' },
-  ],
-  [
-    { key: 'F1' },
-    { key: 'F2' },
-    { key: 'F3' },
-    { key: 'F4' },
-  ],
-  [
-    { key: 'F5' },
-    { key: 'F6' },
-    { key: 'F7' },
-    { key: 'F8' },
-  ],
-  [
-    { key: 'F9' },
-    { key: 'F10' },
-    { key: 'F11' },
-    { key: 'F12' },
-  ],
+  [{ key: 'Esc' }],
+  [{ key: 'F1' }, { key: 'F2' }, { key: 'F3' }, { key: 'F4' }],
+  [{ key: 'F5' }, { key: 'F6' }, { key: 'F7' }, { key: 'F8' }],
+  [{ key: 'F9' }, { key: 'F10' }, { key: 'F11' }, { key: 'F12' }],
 
   [
     {
       key: 'F13',
     },
   ],
-];
+]
 
 // 620 - gap ( 4 * 13=52px ) = 598px
 const NUMBER_ROW: KeyboardProps[] = [
@@ -52,12 +35,12 @@ const NUMBER_ROW: KeyboardProps[] = [
   { key: '0', shiftKey: ')' },
   { key: '-', shiftKey: '_' },
   { key: '=', shiftKey: '+' },
-  { key: 'Backspace', width: 130 -52 },
-];
+  { key: 'Backspace', width: 130 - 52 },
+]
 
 // 650 - gap(4 * 13 = 52px)=598px;
 const QWE_ROW: KeyboardProps[] = [
-  { key: 'Tab', width: 85 -26 },
+  { key: 'Tab', width: 85 - 26 },
   // 12 * 40 = 480px
   { key: 'Q' },
   { key: 'W' },
@@ -72,11 +55,10 @@ const QWE_ROW: KeyboardProps[] = [
   { key: '[', shiftKey: '{' },
   { key: ']', shiftKey: '}' },
   { key: '\\', shiftKey: '|', width: 85 - 26 },
-];
+]
 
 // 650 - gap(4*12 = 48px) = 602px
 const ASD_ROW: KeyboardProps[] = [
-
   { key: 'Caps Lock', width: 95 - 24 },
   // 440px
   { key: 'A' },
@@ -89,10 +71,10 @@ const ASD_ROW: KeyboardProps[] = [
   { key: 'K' },
   { key: 'L' },
   { key: ';', shiftKey: ':' },
-  { key: '\'', shiftKey: '"' },
+  { key: "'", shiftKey: '"' },
 
   { key: 'Enter', width: 115 - 24 },
-];
+]
 
 // 650 - gap (4 * 11 = 44px) = available 606px
 const ZXCV_ROW: KeyboardProps[] = [
@@ -108,7 +90,7 @@ const ZXCV_ROW: KeyboardProps[] = [
   { key: '.', shiftKey: '>' },
   { key: '/', shiftKey: '?' },
   { key: 'Shift', width: 135 - 22 },
-];
+]
 
 // 650 - gap (0.5 * 8 = 4) = 646
 const MODIFIER_KEYS_ROW: KeyboardProps[] = [
@@ -123,7 +105,6 @@ const MODIFIER_KEYS_ROW: KeyboardProps[] = [
   { key: 'Menu', width: 50 },
   { key: 'Ctrl', width: 50 },
 
-
   // { key: 'Ctrl', width: 50 },
   // { key: 'Meta', shiftKey: 'Cmd', width: 50 },
   // { key: 'Alt', width: 50 },
@@ -132,7 +113,7 @@ const MODIFIER_KEYS_ROW: KeyboardProps[] = [
   // { key: 'Meta', shiftKey: 'Cmd', width: 50 },
   // { key: 'Menu', width: 50 },
   // { key: 'Ctrl', width: 50 },
-];
+]
 
 export const KEYBOARD_LAYOUT: KeyboardProps[][] = [
   NUMBER_ROW,
@@ -140,4 +121,4 @@ export const KEYBOARD_LAYOUT: KeyboardProps[][] = [
   ASD_ROW,
   ZXCV_ROW,
   MODIFIER_KEYS_ROW,
-];
+]

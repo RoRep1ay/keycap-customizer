@@ -1,12 +1,25 @@
 'use client'
-import { Customizer, KeyboardLayout, ColorPicker, KeyboardLayoutRef  } from '@/components';
-import { Button } from '@/components/ui/button';
-import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { useKeyboardStyleApplier } from '@/hooks';
+import {
+  Customizer,
+  KeyboardLayout,
+  ColorPicker,
+  KeyboardLayoutRef,
+} from '@/components'
+import { Button } from '@/components/ui/button'
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
+import { useKeyboardStyleApplier } from '@/hooks'
 import { useRef, useState } from 'react'
 
 export default function Home() {
-  const [type, setType] = useState<'color' | 'image'>('color');
+  const [type, setType] = useState<'color' | 'image'>('color')
   const {
     color,
     setColor,
@@ -18,7 +31,7 @@ export default function Home() {
     setFontColor,
   } = useKeyboardStyleApplier(setType)
 
-  const keyboardLayoutRef = useRef<KeyboardLayoutRef | null>(null);
+  const keyboardLayoutRef = useRef<KeyboardLayoutRef | null>(null)
   return (
     <>
       <div>
@@ -47,5 +60,5 @@ export default function Home() {
         />
       </div>
     </>
-  );
+  )
 }

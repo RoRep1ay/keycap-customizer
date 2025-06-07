@@ -1,36 +1,42 @@
-"use client"
+'use client'
 
-import { RefObject, useState } from "react"
-import { Copy, Check } from "lucide-react"
+import { RefObject, useState } from 'react'
+import { Copy, Check } from 'lucide-react'
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select"
-import { CustomizeType, CustomizeValue } from "@/interfaces"
-import { useColorPicker } from "@/hooks"
-import { KeyboardLayoutRef } from "./keyboard"
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from './ui/select'
+import { CustomizeType, CustomizeValue } from '@/interfaces'
+import { useColorPicker } from '@/hooks'
+import { KeyboardLayoutRef } from './keyboard'
 
 const presetColors = [
-  "#FF6B6B",
-  "#4ECDC4",
-  "#45B7D1",
-  "#96CEB4",
-  "#FFEAA7",
-  "#DDA0DD",
-  "#98D8C8",
-  "#F7DC6F",
-  "#BB8FCE",
-  "#85C1E9",
-  "#F8C471",
-  "#82E0AA",
-  "#F1948A",
-  "#85C1E9",
-  "#D7BDE2",
+  '#FF6B6B',
+  '#4ECDC4',
+  '#45B7D1',
+  '#96CEB4',
+  '#FFEAA7',
+  '#DDA0DD',
+  '#98D8C8',
+  '#F7DC6F',
+  '#BB8FCE',
+  '#85C1E9',
+  '#F8C471',
+  '#82E0AA',
+  '#F1948A',
+  '#85C1E9',
+  '#D7BDE2',
 ]
 
-const CUSTOMIZE_TYPES: {id: CustomizeType, text: string}[] = [
+const CUSTOMIZE_TYPES: { id: CustomizeType; text: string }[] = [
   {
     id: 'keycap',
     text: 'Keycap',
@@ -45,15 +51,14 @@ const CUSTOMIZE_TYPES: {id: CustomizeType, text: string}[] = [
   },
 ]
 
-
 // TODO: Return all styles to be applied to keyboard, do not update all the time since it's causing rendering issue. only update when Apply button is clicked
 //
 
-
 export const ColorPicker = ({
   keyboardLayoutRef,
-}: {keyboardLayoutRef: RefObject<KeyboardLayoutRef | null>}) => {
-
+}: {
+  keyboardLayoutRef: RefObject<KeyboardLayoutRef | null>
+}) => {
   const [customizer, setCustomizer] = useState<CustomizeValue>({
     font: '#000000',
     frame: '#000000',
@@ -61,7 +66,10 @@ export const ColorPicker = ({
     image: null,
   })
   const [customizeType, setCustomizeType] = useState<CustomizeType>('keycap')
-  const [selectedColor, setSelectedColor] = useColorPicker(customizeType, customizer)
+  const [selectedColor, setSelectedColor] = useColorPicker(
+    customizeType,
+    customizer
+  )
   const [image, setImage] = useState<string | null>(customizer.image)
   const [copied, setCopied] = useState(false)
 
@@ -79,15 +87,15 @@ export const ColorPicker = ({
   }
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+    const file = e.target.files?.[0]
     if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setImage(imageUrl);
+      const imageUrl = URL.createObjectURL(file)
+      setImage(imageUrl)
       if (keyboardLayoutRef.current) {
         keyboardLayoutRef.current.setImage(imageUrl)
       }
     }
-  };
+  }
 
   const copyToClipboard = async () => {
     try {
@@ -95,7 +103,7 @@ export const ColorPicker = ({
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch (err) {
-      console.error("Failed to copy: ", err)
+      console.error('Failed to copy: ', err)
     }
   }
 
@@ -122,12 +130,19 @@ export const ColorPicker = ({
         <CardContent className="space-y-6">
           {/* Type */}
           <div className="space-y-2">
-            <Select onValueChange={(val: CustomizeType) => setCustomizeType(val)} defaultValue={customizeType}>
+            <Select
+              onValueChange={(val: CustomizeType) => setCustomizeType(val)}
+              defaultValue={customizeType}
+            >
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Theme" />
               </SelectTrigger>
               <SelectContent>
-                {CUSTOMIZE_TYPES.map(type => <SelectItem key={type.id} value={type.id}>{type.text}</SelectItem>)}
+                {CUSTOMIZE_TYPES.map(type => (
+                  <SelectItem key={type.id} value={type.id}>
+                    {type.text}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
@@ -148,7 +163,7 @@ export const ColorPicker = ({
               id="color-input"
               type="color"
               value={selectedColor}
-              onChange={(e) => handleColorChange(e.target.value)}
+              onChange={e => handleColorChange(e.target.value)}
               className="w-full h-12 rounded-md border border-gray-300 cursor-pointer"
             />
           </div>
@@ -161,17 +176,26 @@ export const ColorPicker = ({
                 id="hex-input"
                 type="text"
                 value={selectedColor}
-                onChange={(e) => {
+                onChange={e => {
                   const value = e.target.value
-                  if (/^#[0-9A-F]{6}$/i.test(value) || value === "#") {
+                  if (/^#[0-9A-F]{6}$/i.test(value) || value === '#') {
                     handleColorChange(value)
                   }
                 }}
                 placeholder="#000000"
                 className="font-mono"
               />
-              <Button variant="outline" size="icon" onClick={copyToClipboard} className="shrink-0">
-                {copied ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={copyToClipboard}
+                className="shrink-0"
+              >
+                {copied ? (
+                  <Check className="h-4 w-4 text-green-600" />
+                ) : (
+                  <Copy className="h-4 w-4" />
+                )}
               </Button>
             </div>
           </div>
@@ -205,7 +229,9 @@ export const ColorPicker = ({
                 <button
                   key={index}
                   className={`w-10 h-10 rounded-md border-2 transition-all hover:scale-110 ${
-                    selectedColor === color ? "border-gray-800 shadow-lg" : "border-gray-200 hover:border-gray-400"
+                    selectedColor === color
+                      ? 'border-gray-800 shadow-lg'
+                      : 'border-gray-200 hover:border-gray-400'
                   }`}
                   style={{ backgroundColor: color }}
                   onClick={() => handleColorChange(color)}
@@ -215,7 +241,7 @@ export const ColorPicker = ({
             </div>
           </div>
 
-          {customizeType === 'keycap' ? 
+          {customizeType === 'keycap' ? (
             <div className="space-y-2">
               <Label htmlFor="image" className="font-medium text-gray-700">
                 Image:
@@ -232,10 +258,9 @@ export const ColorPicker = ({
                   file:bg-blue-50 file:text-blue-700
                   hover:file:bg-blue-100"
                 />
-
               </div>
             </div>
-            : null }
+          ) : null}
         </CardContent>
       </Card>
     </div>

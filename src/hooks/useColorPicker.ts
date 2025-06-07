@@ -1,7 +1,10 @@
-import { CustomizeType, CustomizeValue } from "@/interfaces";
-import { useState } from "react";
+import { CustomizeType, CustomizeValue } from '@/interfaces'
+import { useState } from 'react'
 
-export const useColorPicker = (customizeType: CustomizeType, customizer: CustomizeValue) => {
+export const useColorPicker = (
+  customizeType: CustomizeType,
+  customizer: CustomizeValue
+) => {
   const frameState = useState(customizer.frame)
   const fontState = useState(customizer.font)
   const keycapState = useState(customizer.keycap)

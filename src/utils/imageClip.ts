@@ -1,11 +1,11 @@
-import { KEYBOARD_WIDTH, KEYBOARD_HEIGHT } from "@/constants"
-import { ImageClipStyle } from "@/interfaces";
+import { KEYBOARD_WIDTH, KEYBOARD_HEIGHT } from '@/constants'
+import { ImageClipStyle } from '@/interfaces'
 
 type UseImageClipProps = {
-  imageUrl: string;
-  keycapWidth: string;
-  xPos: string;
-  yPos: string;
+  imageUrl: string
+  keycapWidth: string
+  xPos: string
+  yPos: string
 }
 
 export const clipImage = ({
@@ -20,5 +20,5 @@ export const clipImage = ({
     backgroundPosition: `-${xPos}px -${yPos}px`,
     backgroundRepeat: 'no-repeat',
     backgroundClip: 'border-box',
-  };
+  }
 }
