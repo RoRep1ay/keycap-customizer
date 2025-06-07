@@ -11,6 +11,26 @@ type KeyboardLayoutProps = {
   type: 'color' | 'image';
 }
 
+const FUNCTION_KEYS_ROW_WITH_POSITION = FUNCTION_KEYS_ROW.map((row, idx) => {
+  let xOffset = 0;
+  return row.map((key, idx) => {
+    const keyWidth = key.width || 40;
+    const pos = { x: 0, y: 40 };
+    xOffset += keyWidth + 4;
+    return { key, ...pos };
+  })
+})
+
+const KEYBORD_LAYOUT_WITH_POSITION = KEYBOARD_LAYOUT.map((row, rowIndex) => {
+  let xOffset = 0;
+  return row.map((key, idx) => {
+    const keyWidth = key.width || 40;
+    const pos = { x: xOffset, y: (rowIndex + 1) * 40 };
+    xOffset += keyWidth + 4;
+    return { key, ...pos };
+  })
+})
+
 export const KeyboardLayout = ({
   color,
   frameColor,
@@ -18,7 +38,6 @@ export const KeyboardLayout = ({
   image,
   type,
 }: KeyboardLayoutProps) => {
-  let xOffset = 0;
   return (
 
     <div className="flex flex-col items-center justify-center">
@@ -27,25 +46,19 @@ export const KeyboardLayout = ({
 
         {/* Function Key Row */}
         <div className="w-full justify-between flex gap-3.5">
-          {FUNCTION_KEYS_ROW.map((it, id) => (
-            <div className="w-full flex justify-between gap-1" key={id}>
-              {it.map((key, idx) => {
-                const keyWidth = key.width || 40;
-                const xPos = xOffset;
-                const yPos = 0;
-
-                xOffset += keyWidth + 4;
-
+          {FUNCTION_KEYS_ROW_WITH_POSITION.map((row, index) => (
+            <div className="w-full flex justify-between gap-1" key={index}>
+              {row.map((keyWithPos, innerIndex) => {
                 return (
                   <RenderKey
                     type={type}
-                    keyProps={key}
+                    keyProps={keyWithPos.key}
                     fontColor={fontColor}
                     color={color}
                     image={image}
-                    key={idx}
-                    xPos={xPos}
-                    yPos={yPos}
+                    key={innerIndex}
+                    xPos={keyWithPos.x}
+                    yPos={keyWithPos.y}
                   />
                 );
               })}
@@ -54,28 +67,20 @@ export const KeyboardLayout = ({
         </div>
 
         {/* Main Keyboard Rows */}
-        {KEYBOARD_LAYOUT.map((row, rowIndex) => {
-          xOffset = 0;
-
+        {KEYBORD_LAYOUT_WITH_POSITION.map((row, innerIndex) => {
           return (
-            <div key={rowIndex} className="w-full justify-between flex gap-1">
-              {row.map((key, idx) => {
-                const keyWidth = key.width || 40;
-                const xPos = xOffset;
-                const yPos = (rowIndex + 1) * 40;
-
-                xOffset += keyWidth + 4;
-
+            <div key={innerIndex} className="w-full justify-between flex gap-1">
+              {row.map((keyWithPos, innerIndex) => {
                 return (
                   <RenderKey
                     type={type}
-                    keyProps={key}
+                    keyProps={keyWithPos.key}
                     fontColor={fontColor}
                     color={color}
                     image={image}
-                    key={idx}
-                    xPos={xPos}
-                    yPos={yPos}
+                    key={innerIndex}
+                    xPos={keyWithPos.x}
+                    yPos={keyWithPos.y}
                   />
                 );
               })}
@@ -136,3 +141,4 @@ const RenderKey = ({
     </HoverCard>
   )
 }
+

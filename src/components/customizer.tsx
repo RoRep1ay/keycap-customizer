@@ -1,4 +1,7 @@
+import { setState } from 'react';
 import { Dispatch, SetStateAction } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Label } from "./ui/label";
 
 type CustomizerProps = {
   color: string;
@@ -30,6 +33,24 @@ export const Customizer = (
       imageChange(imageUrl);
     }
   };
+  return <div className="w-[350px]"> <Card>
+    <CardHeader>
+      <CardTitle>Card Title</CardTitle>
+    </CardHeader>
+    <CardContent className="space-y-6">
+      <div className="space-y-2">
+        <Label htmlFor="frameColor">Selected Color</Label>
+        <input
+          type="color"
+          id="frameColor"
+          value={frameColor}
+          onChange={(el) => frameColorChange(el.target.value)}
+          className="w-full h-12 rounded-md border border-gray-300 cursor-pointer"
+        />
+      </div>
+    </CardContent>
+  </Card> </div>
+
   return <div className="flex flex-col gap-4 w-[300px] p-4 rounded-xl shadow-md bg-white">
     {/* Frame Color */}
     <div className="flex items-center gap-3">
