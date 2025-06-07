@@ -62,6 +62,7 @@ export const ColorPicker = ({
   })
   const [customizeType, setCustomizeType] = useState<CustomizeType>('keycap')
   const [selectedColor, setSelectedColor] = useColorPicker(customizeType, customizer)
+  const [image, setImage] = useState<string | null>(customizer.image)
   const [copied, setCopied] = useState(false)
 
   const handleColorChange = (color: string) => {
@@ -76,6 +77,17 @@ export const ColorPicker = ({
       }
     }
   }
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setImage(imageUrl);
+      if (keyboardLayoutRef.current) {
+        keyboardLayoutRef.current.setImage(imageUrl)
+      }
+    }
+  };
 
   const copyToClipboard = async () => {
     try {
@@ -108,13 +120,6 @@ export const ColorPicker = ({
           <CardTitle>Color Picker</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
-          <input type="color" onChange={(e) => {
-            if (keyboardLayoutRef.current) {
-              keyboardLayoutRef.current.setFrameColor(e.target.value)
-              setSelectedColor(e.target.value);
-            }
-          }}
-          />
           {/* Type */}
           <div className="space-y-2">
             <Select onValueChange={(val: CustomizeType) => setCustomizeType(val)} defaultValue={customizeType}>
@@ -210,7 +215,7 @@ export const ColorPicker = ({
             </div>
           </div>
 
-          {customizeType === 'frame' ? 
+          {customizeType === 'keycap' ? 
             <div className="space-y-2">
               <Label htmlFor="image" className="font-medium text-gray-700">
                 Image:
@@ -219,6 +224,7 @@ export const ColorPicker = ({
                 <input
                   type="file"
                   id="image"
+                  onChange={handleImageChange}
                   className="block w-full text-sm text-gray-600
                   file:mr-4 file:py-2 file:px-4
                   file:rounded-full file:border-0
@@ -230,11 +236,6 @@ export const ColorPicker = ({
               </div>
             </div>
             : null }
-
-          {/* Apply Button */}
-          <div>
-            <Button>Apply</Button>
-          </div>
         </CardContent>
       </Card>
     </div>

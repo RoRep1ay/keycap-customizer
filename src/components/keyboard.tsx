@@ -1,4 +1,4 @@
-import { FUNCTION_KEYS_ROW, KEYBOARD_LAYOUT } from '@/interfaces';
+import { FUNCTION_KEYS_ROW, KEYBOARD_LAYOUT, KeyboardProps } from '@/interfaces';
 import { Keycap, KeycapRef } from './keycap';
 import { KEYBOARD_HEIGHT, KEYBOARD_WIDTH } from '@/constants';
 import { forwardRef, Ref, useImperativeHandle, useRef } from 'react';
@@ -12,15 +12,36 @@ type KeyboardLayoutProps = {
   ref: Ref<HTMLDivElement>
 }
 
-const FUNCTION_KEYS_ROW_WITH_POSITION = FUNCTION_KEYS_ROW.map((row, idx) => {
-  let xOffset = 0;
-  return row.map((key, idx) => {
+const FUNCTION_KEYS_ROW_WITH_POSITION: { key: KeyboardProps; x: number; y: number }[][] = [];
+
+
+let xOffset = 0;
+for (let idx = 0; idx < FUNCTION_KEYS_ROW.length; idx++) {
+  const row = FUNCTION_KEYS_ROW[idx];
+  const resultRow: { key: KeyboardProps; x: number; y: number }[] = [];
+
+  for (let innerIdx = 0; innerIdx < row.length; innerIdx++) {
+    const key = row[innerIdx];
     const keyWidth = key.width || 40;
-    const pos = { x: 0, y: 40 };
-    xOffset += keyWidth + 4;
-    return { key, ...pos };
-  })
-})
+
+    resultRow.push({
+      key,
+      x: xOffset,
+      y: 0,
+    });
+
+    xOffset += keyWidth;
+    if (innerIdx !== row.length - 1) {
+      xOffset += 4; // gap between keys
+    }
+  }
+
+  FUNCTION_KEYS_ROW_WITH_POSITION.push(resultRow);
+
+  if (idx !== FUNCTION_KEYS_ROW.length - 1) {
+    xOffset += 14; // gap between rows
+  }
+}
 
 const KEYBORD_LAYOUT_WITH_POSITION = KEYBOARD_LAYOUT.map((row, rowIndex) => {
   let xOffset = 0;
@@ -36,19 +57,13 @@ export interface KeyboardLayoutRef {
   setFrameColor: (color: string) => void
   setKeycapColor: (color: string) => void
   setFontColor: (color: string) => void
+  setImage: (image: string) => void
 }
 
 export const KeyboardLayout = forwardRef<KeyboardLayoutRef, KeyboardLayoutProps>(({
-  color,
-  frameColor,
-  fontColor,
-  image,
   type,
 }, ref) => {
-    console.log('hello')
     const frameColorRef = useRef<HTMLDivElement>(null);
-    const shitRef = useRef<KeycapRef>(null)
-    const div2Ref = useRef<HTMLDivElement>(null);
     const keycapRefs = useRef<(KeycapRef | null)[]>([])
 
     useImperativeHandle(ref, () => {
@@ -72,6 +87,13 @@ export const KeyboardLayout = forwardRef<KeyboardLayoutRef, KeyboardLayoutProps>
               ref.setKeycapColor(color);
             }
           }
+        },
+        setImage: (image) => {
+          for (const ref of keycapRefs.current) {
+            if (ref) {
+              ref.setKeycapImage(image);
+            }
+          }
         }
       }
     })
@@ -93,24 +115,14 @@ export const KeyboardLayout = forwardRef<KeyboardLayoutRef, KeyboardLayoutProps>
                       ref={el => {
                         keycapRefs.current.push(el)
                       }}
+                      xPosition={keyWithPos.x}
+                      yPosition={keyWithPos.y}
+                      keyboardWidth={KEYBOARD_WIDTH}
+                      keyboardHeight={KEYBOARD_HEIGHT}
                       type={type}
-                      backgroundColor={color}
-                      fontColor={fontColor}
                       shiftKey={keyWithPos.key.shiftKey}
                       keyChar={keyWithPos.key.key}
                       keyWidth={keyWithPos.key.width}
-                      imageUrl={image || ''}
-                      imageStyle={
-                        type === 'image' && image
-                          ? {
-                            backgroundImage: `url(${image})`,
-                            backgroundSize: `${KEYBOARD_WIDTH}px ${KEYBOARD_HEIGHT}px`,
-                            backgroundPosition: `-${keyWithPos.x}px -${keyWithPos.y}px`,
-                            backgroundRepeat: 'no-repeat',
-                            backgroundClip: 'border-box',
-                          }
-                          : undefined
-                      }
                     />
 
                   );
@@ -131,23 +143,13 @@ export const KeyboardLayout = forwardRef<KeyboardLayoutRef, KeyboardLayoutProps>
                       ref={el => {
                         keycapRefs.current.push(el)
                       }}
-                      backgroundColor={color}
-                      fontColor={fontColor}
                       shiftKey={keyWithPos.key.shiftKey}
                       keyChar={keyWithPos.key.key}
                       keyWidth={keyWithPos.key.width}
-                      imageUrl={image || ''}
-                      imageStyle={
-                        type === 'image' && image
-                          ? {
-                            backgroundImage: `url(${image})`,
-                            backgroundSize: `${KEYBOARD_WIDTH}px ${KEYBOARD_HEIGHT}px`,
-                            backgroundPosition: `-${keyWithPos.x}px -${keyWithPos.y}px`,
-                            backgroundRepeat: 'no-repeat',
-                            backgroundClip: 'border-box',
-                          }
-                          : undefined
-                      }
+                      xPosition={keyWithPos.x}
+                      yPosition={keyWithPos.y}
+                      keyboardWidth={KEYBOARD_WIDTH}
+                      keyboardHeight={KEYBOARD_HEIGHT}
                     />
                   );
                 })}
