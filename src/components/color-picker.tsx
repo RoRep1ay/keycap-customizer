@@ -1,6 +1,6 @@
 'use client'
 
-import { RefObject, useState } from 'react'
+import { RefObject, useRef, useState } from 'react'
 import { Copy, Check } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -15,7 +15,7 @@ import {
   SelectValue,
 } from './ui/select'
 import { CustomizeType, CustomizeValue } from '@/interfaces'
-import { useColorPicker } from '@/hooks'
+import { useColorPicker, useLocalStorage } from '@/hooks'
 import { KeyboardLayoutRef } from './keyboard'
 
 const presetColors = [
@@ -59,18 +59,24 @@ export const ColorPicker = ({
 }: {
   keyboardLayoutRef: RefObject<KeyboardLayoutRef | null>
 }) => {
-  const [customizer, setCustomizer] = useState<CustomizeValue>({
-    font: '#000000',
-    frame: '#000000',
-    keycap: '#ffffff',
-    image: null,
-  })
+  const { loadColorFromStorage, setColorIntoStorage } = useLocalStorage()
+  const customizeValue = loadColorFromStorage()
+  const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+  console.log('customizeValue', customizeValue)
+
+  // const [customizer, setCustomizer] = useState<CustomizeValue>({
+  //   font: '#000000',
+  //   frame: '#000000',
+  //   keycap: '#ffffff',
+  //   image: null,
+  // })
   const [customizeType, setCustomizeType] = useState<CustomizeType>('keycap')
   const [selectedColor, setSelectedColor] = useColorPicker(
     customizeType,
-    customizer
+    customizeValue,
   )
-  const [image, setImage] = useState<string | null>(customizer.image)
+  const [image, setImage] = useState<string | null>(customizeValue.image)
   const [copied, setCopied] = useState(false)
 
   const handleColorChange = (color: string) => {
@@ -84,6 +90,13 @@ export const ColorPicker = ({
         keyboardLayoutRef.current.setKeycapColor(color)
       }
     }
+    if (debounceTimeoutRef.current) {
+      clearTimeout(debounceTimeoutRef.current)
+    }
+
+    debounceTimeoutRef.current = setTimeout(() => {
+      setColorIntoStorage(customizeType, color)
+    }, 300)
   }
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
