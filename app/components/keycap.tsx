@@ -50,7 +50,6 @@ export const Keycap = forwardRef<KeycapRef, KeycapProps>(
         },
         setKeyFontColor: color => {
           if (divRef.current) {
-            console.log('helllo font???')
             divRef.current.style.color = color
           }
         },

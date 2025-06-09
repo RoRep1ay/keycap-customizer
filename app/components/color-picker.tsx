@@ -1,4 +1,4 @@
-import { type RefObject, useRef, useState } from 'react'
+import { type RefObject, useEffect, useRef, useState } from 'react'
 import { Copy, Check } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -61,19 +61,21 @@ export const ColorPicker = ({
   const customizeValue = loadColorFromStorage()
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
-  console.log('customizeValue', customizeValue)
-
-  // const [customizer, setCustomizer] = useState<CustomizeValue>({
-  //   font: '#000000',
-  //   frame: '#000000',
-  //   keycap: '#ffffff',
-  //   image: null,
-  // })
   const [customizeType, setCustomizeType] = useState<CustomizeType>('keycap')
+  // TODO: Probably remove this
   const [selectedColor, setSelectedColor] = useColorPicker(
     customizeType,
     customizeValue,
   )
+  useEffect(() => {
+    if (!keyboardLayoutRef.current) {
+      return
+    }
+    keyboardLayoutRef.current.setFrameColor(customizeValue.frame)
+    keyboardLayoutRef.current.setFontColor(customizeValue.font)
+    keyboardLayoutRef.current.setKeycapColor(customizeValue.keycap)
+  }, [])
+
   const [image, setImage] = useState<string | null>(customizeValue.image)
   const [copied, setCopied] = useState(false)
 
@@ -129,7 +131,6 @@ export const ColorPicker = ({
       : null
   }
 
-  console.log('selectedColor', selectedColor)
   const rgb = hexToRgb(selectedColor)
 
   return (

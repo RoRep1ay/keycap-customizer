@@ -48,7 +48,7 @@ for (let idx = 0; idx < FUNCTION_KEYS_ROW.length; idx++) {
 
 const KEYBORD_LAYOUT_WITH_POSITION = KEYBOARD_LAYOUT.map((row, rowIndex) => {
   let xOffset = 0
-  return row.map((key, idx) => {
+  return row.map((key) => {
     const keyWidth = key.width || 40
     const pos = { x: xOffset, y: (rowIndex + 1) * 40 }
     xOffset += keyWidth + 4
@@ -73,7 +73,6 @@ export const KeyboardLayout = forwardRef<
   useImperativeHandle(ref, () => {
     return {
       setFrameColor: color => {
-        console.log('setting frame color')
         if (frameColorRef.current) {
           frameColorRef.current.style.backgroundColor = color
         }
