@@ -134,7 +134,7 @@ export const ColorPicker = ({
   const rgb = hexToRgb(selectedColor)
 
   return (
-    <div className="mx-10 p-6 space-y-6 w-[500px]">
+    <div className="mx-10 space-y-6 w-[500px]">
       <Card>
         <CardHeader>
           <CardTitle>Color Picker</CardTitle>

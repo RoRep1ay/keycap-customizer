@@ -28,7 +28,7 @@ export default function Home() {
 
   const keyboardLayoutRef = useRef<KeyboardLayoutRef | null>(null)
   return (
-    <div className="w-11/12 mx-auto flex justify-between mt-5">
+    <div className="w-11/12 mx-auto flex justify-between mt-28">
       <ColorPicker keyboardLayoutRef={keyboardLayoutRef} />
       <KeyboardLayout
         ref={keyboardLayoutRef}

@@ -102,7 +102,7 @@ export const KeyboardLayout = forwardRef<
   })
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col py-6">
       {/* Keyboard Frame Container */}
       <div
         className="flex flex-col gap-1 w-[666px] p-2 bg-gray-800 border-gray-700 rounded-2xl shadow-xl"
