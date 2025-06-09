@@ -28,32 +28,16 @@ export default function Home() {
 
   const keyboardLayoutRef = useRef<KeyboardLayoutRef | null>(null)
   return (
-    <>
-      <div>
-        <Card>
-          <CardHeader>
-            <CardTitle>Custmoize Section</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p>Card Content</p>
-          </CardContent>
-          <CardFooter>
-            <p>Card Footer</p>
-          </CardFooter>
-        </Card>
-      </div>
-
-      <div className="w-11/12 mx-auto flex justify-between mt-5">
-        <ColorPicker keyboardLayoutRef={keyboardLayoutRef} />
-        <KeyboardLayout
-          ref={keyboardLayoutRef}
-          frameColor={frameColor}
-          image={image}
-          color={color}
-          fontColor={fontColor}
-          type={type}
-        />
-      </div>
-    </>
+    <div className="w-11/12 mx-auto flex justify-between mt-5">
+      <ColorPicker keyboardLayoutRef={keyboardLayoutRef} />
+      <KeyboardLayout
+        ref={keyboardLayoutRef}
+        frameColor={frameColor}
+        image={image}
+        color={color}
+        fontColor={fontColor}
+        type={type}
+      />
+    </div>
   )
 }
