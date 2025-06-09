@@ -1,16 +1,7 @@
 import type { CustomizeValue } from '@/interfaces'
 
 export const useLocalStorage = () => {
-  const loadColorFromStorage = (): CustomizeValue => {
-    if (typeof window === 'undefined') {
-      return {
-        frame: '#000000',
-        font: '#000000',
-        keycap: '#ffffff',
-        image: null,
-      }
-    }
-
+  const loadValueFromStorage = (): CustomizeValue => {
     return {
       frame: window.localStorage.getItem('frame') || '#000000',
       font: window.localStorage.getItem('font') || '#000000',
@@ -19,18 +10,21 @@ export const useLocalStorage = () => {
     }
   }
 
-  const setColorIntoStorage = (key: 'frame' | 'font' | 'keycap' | 'image', value: string | null) => {
-    if (typeof window === 'undefined' || value === null) return
-
+  const setValueIntoStorage = (key: 'frame' | 'font' | 'keycap' | 'image', value: string | null) => {
     if (value === null) {
       return
     }
     window.localStorage.setItem(key, value)
   }
 
+  const removeValueFromStorage = (key: 'frame' | 'font' | 'keycap' | 'image') => {
+    window.localStorage.removeItem(key)
+  }
+
 
   return {
-    loadColorFromStorage,
-    setColorIntoStorage,
+    loadValueFromStorage,
+    setValueIntoStorage,
+    removeValueFromStorage,
   }
 }

@@ -57,8 +57,8 @@ export const ColorPicker = ({
 }: {
   keyboardLayoutRef: RefObject<KeyboardLayoutRef | null>
 }) => {
-  const { loadColorFromStorage, setColorIntoStorage } = useLocalStorage()
-  const customizeValue = loadColorFromStorage()
+  const { loadValueFromStorage, setValueIntoStorage, removeValueFromStorage } = useLocalStorage()
+  const customizeValue = loadValueFromStorage()
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   const [customizeType, setCustomizeType] = useState<CustomizeType>('keycap')
@@ -71,12 +71,15 @@ export const ColorPicker = ({
     if (!keyboardLayoutRef.current) {
       return
     }
-    keyboardLayoutRef.current.setFrameColor(customizeValue.frame)
+    if (customizeValue.image) {
+      keyboardLayoutRef.current.setKeycapImage(customizeValue.image)
+    } else {
+      keyboardLayoutRef.current.setKeycapColor(customizeValue.keycap)
+    }
     keyboardLayoutRef.current.setFontColor(customizeValue.font)
-    keyboardLayoutRef.current.setKeycapColor(customizeValue.keycap)
+    keyboardLayoutRef.current.setFrameColor(customizeValue.frame)
   }, [])
 
-  const [image, setImage] = useState<string | null>(customizeValue.image)
   const [copied, setCopied] = useState(false)
 
   const handleColorChange = (color: string) => {
@@ -88,6 +91,8 @@ export const ColorPicker = ({
         keyboardLayoutRef.current.setFontColor(color)
       } else {
         keyboardLayoutRef.current.setKeycapColor(color)
+        removeValueFromStorage('image')
+        
       }
     }
     if (debounceTimeoutRef.current) {
@@ -95,18 +100,23 @@ export const ColorPicker = ({
     }
 
     debounceTimeoutRef.current = setTimeout(() => {
-      setColorIntoStorage(customizeType, color)
+      setValueIntoStorage(customizeType, color)
     }, 300)
   }
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
-      const imageUrl = URL.createObjectURL(file)
-      setImage(imageUrl)
-      if (keyboardLayoutRef.current) {
-        keyboardLayoutRef.current.setImage(imageUrl)
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        const base64Image = reader.result as string
+        setValueIntoStorage('image', base64Image)
+        removeValueFromStorage('keycap')
+        if (keyboardLayoutRef.current) {
+          keyboardLayoutRef.current.setKeycapImage(base64Image)
+        }
       }
+      reader.readAsDataURL(file)
     }
   }
 

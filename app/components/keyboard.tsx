@@ -60,7 +60,7 @@ export interface KeyboardLayoutRef {
   setFrameColor: (color: string) => void
   setKeycapColor: (color: string) => void
   setFontColor: (color: string) => void
-  setImage: (image: string) => void
+  setKeycapImage: (image: string) => void
 }
 
 export const KeyboardLayout = forwardRef<
@@ -91,7 +91,7 @@ export const KeyboardLayout = forwardRef<
           }
         }
       },
-      setImage: image => {
+      setKeycapImage: image => {
         for (const ref of keycapRefs.current) {
           if (ref) {
             ref.setKeycapImage(image)
