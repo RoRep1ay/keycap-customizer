@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import { useKeyboardStyleApplier } from "@/hooks";
 import { ColorPicker, KeyboardLayout, type KeyboardLayoutRef } from "@/components";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { KEYBOARD_NUMBER_SIDE_LAYOUT } from "@/interfaces";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -28,7 +29,7 @@ export default function Home() {
 
   const keyboardLayoutRef = useRef<KeyboardLayoutRef | null>(null)
   return (
-    <div className="w-11/12 mx-auto flex justify-between mt-28">
+    <div className="w-full mx-auto flex justify-between mt-28">
       <ColorPicker keyboardLayoutRef={keyboardLayoutRef} />
       <KeyboardLayout
         ref={keyboardLayoutRef}

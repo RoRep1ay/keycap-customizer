@@ -9,7 +9,7 @@ type KeycapProps = {
   yPosition: number
   keyboardWidth: number
   keyboardHeight: number
-
+  className?: string
   type: 'color' | 'image'
 }
 
@@ -31,6 +31,7 @@ export const Keycap = forwardRef<KeycapRef, KeycapProps>(
       xPosition,
       yPosition,
       type,
+      className = '',
     },
     ref
   ) => {
@@ -70,7 +71,7 @@ export const Keycap = forwardRef<KeycapRef, KeycapProps>(
       <div
         ref={divRef}
         style={{ width: keyWidth || 40 }}
-        className={`text-xs flex flex-col items-center justify-center border border-gray-400 rounded bg-white font-mono text-black h-[40px] p-1`}
+        className={`text-xs flex flex-col items-center justify-center border border-gray-400 rounded bg-white font-mono text-black p-1${className ? ` ${className}` : ''}`}
       >
         {shiftKey && <div className="text-xs leading-none">{shiftKey}</div>}
         <div>{keyChar}</div>

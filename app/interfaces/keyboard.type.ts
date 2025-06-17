@@ -2,6 +2,7 @@ export type KeyboardProps = {
   key: string
   shiftKey?: string
   width?: number
+  className?: string
 }
 
 // 650 - (4 * 9 (inner gap) = 36px) = 614px
@@ -121,4 +122,83 @@ export const KEYBOARD_LAYOUT: KeyboardProps[][] = [
   ASD_ROW,
   ZXCV_ROW,
   MODIFIER_KEYS_ROW,
+]
+
+const FUNCTION_SPECIAL_SIDE_ROW: KeyboardProps[] = [
+  { key: 'Print', },
+  { key: 'Scroll', },
+  { key: 'Pause', },
+]
+
+const NUMBER_SPECIAL_SIDE_ROW: KeyboardProps[] = [
+  { key: 'Insert', },
+  { key: 'Home', },
+  { key: 'PgUp', },
+]
+
+const ASD_SPECIAL_SIDE_ROW: KeyboardProps[] = [
+  { key: 'Delete', },
+  { key: 'End', },
+  { key: 'PgDn', },
+]
+
+const ZXCV_SPECIAL_SIDE_ROW: KeyboardProps[] = [
+  { key: 'Up', },
+]
+
+const MODIFIER_SPECIAL_SIDE_ROW: KeyboardProps[] = [
+  { key: 'Left', },
+  { key: 'Down', },
+  { key: 'Right', },
+]
+
+export const KEYBOARD_SIDE_LAYOUT: KeyboardProps[][] = [
+  FUNCTION_SPECIAL_SIDE_ROW,
+  NUMBER_SPECIAL_SIDE_ROW,
+  ASD_SPECIAL_SIDE_ROW,
+  [],
+  ZXCV_SPECIAL_SIDE_ROW,
+  MODIFIER_SPECIAL_SIDE_ROW,
+]
+
+
+
+const NUMBER_NUMBER_SIDE_ROW: KeyboardProps[] = [
+  { key: 'NumLock' },
+  { key: '/', },
+  { key: '*', },
+  { key: '-', },
+]
+
+const QWE_NUMBER_SIDE_ROW: KeyboardProps[] = [
+  { key: '7', },
+  { key: '8', },
+  { key: '9', },
+  { key: '+', className: 'row-span-2' }
+]
+
+const ASD_NUMBER_SIDE_ROW: KeyboardProps[] = [
+  { key: '4', },
+  { key: '5', },
+  { key: '6', },
+]
+
+const ZXCV_NUMBER_SIDE_ROW: KeyboardProps[] = [
+  { key: '1', },
+  { key: '2', },
+  { key: '3', },
+  { key: 'Enter', className: 'row-span-2' }
+]
+
+const MODIFIER_NUMBER_SIDE_ROW: KeyboardProps[] = [
+  { key: '0', className: 'col-span-2', width: 84 }, // including gap sizing
+  { key: '.' },
+]
+
+export const KEYBOARD_NUMBER_SIDE_LAYOUT: KeyboardProps[] = [
+  ...NUMBER_NUMBER_SIDE_ROW,
+  ...QWE_NUMBER_SIDE_ROW,
+  ...ASD_NUMBER_SIDE_ROW,
+  ...ZXCV_NUMBER_SIDE_ROW,
+  ...MODIFIER_NUMBER_SIDE_ROW,
 ]

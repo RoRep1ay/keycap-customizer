@@ -1,4 +1,4 @@
-import { FUNCTION_KEYS_ROW, KEYBOARD_LAYOUT, type KeyboardProps } from '@/interfaces'
+import { FUNCTION_KEYS_ROW, KEYBOARD_LAYOUT, KEYBOARD_NUMBER_SIDE_LAYOUT, KEYBOARD_SIDE_LAYOUT, type KeyboardProps } from '@/interfaces'
 import { Keycap, type KeycapRef } from './keycap'
 import { KEYBOARD_HEIGHT, KEYBOARD_WIDTH } from '@/constants'
 import { forwardRef, type Ref, useImperativeHandle, useRef } from 'react'
@@ -56,6 +56,16 @@ const KEYBORD_LAYOUT_WITH_POSITION = KEYBOARD_LAYOUT.map((row, rowIndex) => {
   })
 })
 
+const KEYBOARD_SIDE_LAYOUT_WITH_POSITION = KEYBOARD_SIDE_LAYOUT.map((row, rowIndex) => {
+  let xOffset = 0
+  return row.map((key) => {
+    const keyWidth = key.width || 40
+    const pos = { x: xOffset, y: (rowIndex + 1) * 40 }
+    xOffset += keyWidth + 4
+    return { key, ...pos }
+  })
+})
+
 export interface KeyboardLayoutRef {
   setFrameColor: (color: string) => void
   setKeycapColor: (color: string) => void
@@ -64,8 +74,8 @@ export interface KeyboardLayoutRef {
 }
 
 export const KeyboardLayout = forwardRef<
-  KeyboardLayoutRef,
-  KeyboardLayoutProps
+KeyboardLayoutRef,
+KeyboardLayoutProps
 >(({ type }, ref) => {
   const frameColorRef = useRef<HTMLDivElement>(null)
   const keycapRefs = useRef<(KeycapRef | null)[]>([])
@@ -105,60 +115,115 @@ export const KeyboardLayout = forwardRef<
     <div className="flex flex-col py-6">
       {/* Keyboard Frame Container */}
       <div
-        className="flex flex-col gap-1 w-[666px] p-2 bg-gray-800 border-gray-700 rounded-2xl shadow-xl"
+        className="flex gap-3 p-2 bg-gray-800 border-gray-700 rounded-2xl shadow-xl"
         ref={frameColorRef}
       >
-        {/* Function Key Row */}
-        <div className="w-full justify-between flex gap-3.5">
-          {FUNCTION_KEYS_ROW_WITH_POSITION.map((row, index) => (
-            <div className="w-full flex justify-between gap-1" key={index}>
-              {row.map((keyWithPos, innerIndex) => {
-                return (
-                  <Keycap
-                    key={innerIndex}
-                    ref={el => {
-                      keycapRefs.current.push(el)
-                    }}
-                    xPosition={keyWithPos.x}
-                    yPosition={keyWithPos.y}
-                    keyboardWidth={KEYBOARD_WIDTH}
-                    keyboardHeight={KEYBOARD_HEIGHT}
-                    type={type}
-                    shiftKey={keyWithPos.key.shiftKey}
-                    keyChar={keyWithPos.key.key}
-                    keyWidth={keyWithPos.key.width}
-                  />
-                )
-              })}
-            </div>
-          ))}
-        </div>
+        <div className="space-y-1 w-[666px]">
+          {/* Function Key Row */}
+          <div className="justify-between flex gap-[17px] h-[40px] ">
+            {FUNCTION_KEYS_ROW_WITH_POSITION.map((row, index) => (
+              <div className="w-full flex justify-between gap-1" key={index}>
+                {row.map((keyWithPos, innerIndex) => {
+                  return (
+                    <Keycap
+                      key={innerIndex}
+                      ref={el => {
+                        keycapRefs.current.push(el)
+                      }}
+                      xPosition={keyWithPos.x}
+                      yPosition={keyWithPos.y}
+                      keyboardWidth={KEYBOARD_WIDTH}
+                      keyboardHeight={KEYBOARD_HEIGHT}
+                      type={type}
+                      shiftKey={keyWithPos.key.shiftKey}
+                      keyChar={keyWithPos.key.key}
+                      keyWidth={keyWithPos.key.width}
+                    />
+                  )
+                })}
+              </div>
+            ))}
+          </div>
 
-        {/* Main Keyboard Rows */}
-        {KEYBORD_LAYOUT_WITH_POSITION.map((row, innerIndex) => {
-          return (
-            <div key={innerIndex} className="w-full justify-between flex gap-1">
-              {row.map((keyWithPos, innerIndex) => {
-                return (
-                  <Keycap
-                    key={innerIndex}
-                    type={type}
-                    ref={el => {
-                      keycapRefs.current.push(el)
-                    }}
-                    shiftKey={keyWithPos.key.shiftKey}
-                    keyChar={keyWithPos.key.key}
-                    keyWidth={keyWithPos.key.width}
-                    xPosition={keyWithPos.x}
-                    yPosition={keyWithPos.y}
-                    keyboardWidth={KEYBOARD_WIDTH}
-                    keyboardHeight={KEYBOARD_HEIGHT}
-                  />
-                )
-              })}
-            </div>
-          )
-        })}
+          {/* Main Keyboard Rows */}
+          {KEYBORD_LAYOUT_WITH_POSITION.map((row, idx) => {
+            return (
+              <div className="w-full h-[40px] justify-between flex gap-1" key={idx}>
+                {row.map((keyWithPos, innerIndex) => {
+                  return (
+                    <Keycap
+                      key={innerIndex}
+                      type={type}
+                      ref={el => {
+                        keycapRefs.current.push(el)
+                      }}
+                      shiftKey={keyWithPos.key.shiftKey}
+                      keyChar={keyWithPos.key.key}
+                      keyWidth={keyWithPos.key.width}
+                      xPosition={keyWithPos.x}
+                      yPosition={keyWithPos.y}
+                      keyboardWidth={KEYBOARD_WIDTH}
+                      keyboardHeight={KEYBOARD_HEIGHT}
+                    />
+                  )
+                })}
+              </div>
+            )
+          })}
+        </div>
+        {/* SPECIAL KEYS SIDE LAYOUT */}
+        <div className="space-y-1 w-[128px]">
+          {KEYBOARD_SIDE_LAYOUT_WITH_POSITION.map((row, innerIndex) => {
+            return (
+              <div className="w-full h-[40px] flex justify-center gap-1" key={innerIndex}>
+                {row.map((keyWithPos, innerIndex) => {
+                  return (
+                    <Keycap
+                      key={innerIndex}
+                      ref={el => {
+                        keycapRefs.current.push(el)
+                      }}
+                      xPosition={keyWithPos.x}
+                      yPosition={keyWithPos.y}
+                      keyboardWidth={KEYBOARD_WIDTH}
+                      keyboardHeight={KEYBOARD_HEIGHT}
+                      type={type}
+                      shiftKey={keyWithPos.key.shiftKey}
+                      keyChar={keyWithPos.key.key}
+                      keyWidth={keyWithPos.key.width}
+                    />
+                  )
+                })}
+              </div>
+            )
+          })}
+
+
+        </div>
+        <div className="grid grid-cols-4 gap-1 w-[172px] grid-rows-[40px]">
+          <div className="col-span-4">
+          </div>
+          {KEYBOARD_NUMBER_SIDE_LAYOUT.map((key, indx) => {
+            return (
+              <Keycap
+                key={indx}
+                ref={el => {
+                  keycapRefs.current.push(el)
+                }}
+                className={key.className}
+                xPosition={0}
+                yPosition={(indx + 1) * 40}
+                keyboardWidth={KEYBOARD_WIDTH}
+                keyboardHeight={KEYBOARD_HEIGHT}
+                type={type}
+                shiftKey={key.shiftKey}
+                keyChar={key.key}
+                keyWidth={key.width}
+              />
+            )
+          })}
+
+        </div>
       </div>
     </div>
   )
