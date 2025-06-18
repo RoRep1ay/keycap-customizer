@@ -16,6 +16,7 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Home() {
   const [type, setType] = useState<'color' | 'image'>('color')
+  const [keyboardType, setKeyboardType] = useState<'tkl' | 'full'>('tkl')
   const {
     color,
     setColor,
@@ -30,9 +31,12 @@ export default function Home() {
   const keyboardLayoutRef = useRef<KeyboardLayoutRef | null>(null)
   return (
     <div className="w-full mx-auto flex justify-between mt-28">
-      <ColorPicker keyboardLayoutRef={keyboardLayoutRef} />
+      <ColorPicker
+        keyboardLayoutRef={keyboardLayoutRef}
+      />
       <KeyboardLayout
         ref={keyboardLayoutRef}
+        keyboardType={keyboardType}
         frameColor={frameColor}
         image={image}
         color={color}

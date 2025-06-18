@@ -1,4 +1,4 @@
-import { type RefObject, useEffect, useRef, useState } from 'react'
+import { type Dispatch, type RefObject, useEffect, useRef, useState } from 'react'
 import { Copy, Check } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -55,7 +55,7 @@ const CUSTOMIZE_TYPES: { id: CustomizeType; text: string }[] = [
 export const ColorPicker = ({
   keyboardLayoutRef,
 }: {
-  keyboardLayoutRef: RefObject<KeyboardLayoutRef | null>
+    keyboardLayoutRef: RefObject<KeyboardLayoutRef | null>,
 }) => {
   const { loadValueFromStorage, setValueIntoStorage, removeValueFromStorage } = useLocalStorage()
   const customizeValue = loadValueFromStorage()
@@ -78,6 +78,7 @@ export const ColorPicker = ({
     }
     keyboardLayoutRef.current.setFontColor(customizeValue.font)
     keyboardLayoutRef.current.setFrameColor(customizeValue.frame)
+    keyboardLayoutRef.current.setKeyboardType(customizeValue.keyboardType)
   }, [])
 
   const [copied, setCopied] = useState(false)
@@ -150,6 +151,29 @@ export const ColorPicker = ({
           <CardTitle>Color Picker</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
+          <div className="space-y-2">
+            <Select
+              onValueChange={(val: 'tkl' | 'full') => {
+                // setValueIntoStorage('keyboardType', val)
+                if (keyboardLayoutRef.current) {
+                  keyboardLayoutRef.current.setKeyboardType(val)
+                }
+              }}
+              defaultValue={customizeValue.keyboardType}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Theme" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value='tkl'>
+                  TKL
+                </SelectItem>
+                <SelectItem value='full'>
+                  Full Width Keyboard
+                </SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
           {/* Type */}
           <div className="space-y-2">
             <Select
